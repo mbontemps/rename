@@ -65,8 +65,22 @@ foreach($files as $file) {
     foreach($fromTo as $from => $to) {
         if(strpos($file, $from) !== false) {
             $fileNew = str_replace($from, $to, $file);
-            rename($file, $fileNew);
-            echo "Replacing $niceFile by $fileNew\n";
+            echo "Renaming $niceFile to $fileNew\n";
+
+            // Create path if it does not exist
+            $dir = dirname($fileNew);
+            if(!is_dir($dir)) {
+                echo "Creating dir $dir\n";
+                $success = mkdir($dir, 0755, true);
+                if(!$success) {
+                    echo "Error\n";
+                }
+            }
+
+            $ok = rename($file, $fileNew);
+            if(!$ok) {
+                die("Unable to rename $niceFile to $fileNew");
+            }
             $file = $fileNew;
         }
     }
