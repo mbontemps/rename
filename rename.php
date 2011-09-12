@@ -26,7 +26,7 @@ function from_camel_case($str) {
 }
 
 $excludeFiles = array(
-  '/.git',
+  '.git',
   '.svn',
   '/lib/vendor',
   '/plugins',
@@ -39,6 +39,7 @@ $dir = realpath(isset($argv[3]) ? $argv[3] : '.');
 $files = explode("\n", trim(shell_exec("find $dir -type f")));
 
 $fromTo = array(
+    $from => $to,
     lcfirst($from) => lcfirst($to),
     ucfirst($from) => ucfirst($to),
     from_camel_case($from) => from_camel_case($to),
